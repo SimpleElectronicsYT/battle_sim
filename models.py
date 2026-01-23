@@ -10,3 +10,6 @@ class Character:
     def attack(self, target):
         target.hp -= self.strength
         print(f"{self.name} attacks {target.name} for {self.strength} damage!")
+        
+    def is_alive(self):
+        return self.hp > 0
