@@ -1,9 +1,9 @@
 #Importing from other modules
-from models import Character, Warrior
+from models import Character, Warrior, Mage
 
-#Make two instances of the character class - name, hp, stength
+#Make two instances of the character class - name, hp, stength, intelligence
 character_one = Warrior("Hero", 100, 10)
-character_two = Character("Goblin", 30, 5)
+character_two = Mage("Evil Wizard", 40, 15)
 
 #Print the starting state of the two characters
 print(character_one)
