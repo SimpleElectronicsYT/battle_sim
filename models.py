@@ -1,3 +1,4 @@
+#Parent class for the characters
 class Character:
     def __init__(self, name, hp, strength):
         self.name = name
@@ -13,3 +14,10 @@ class Character:
         
     def is_alive(self):
         return self.hp > 0
+    
+#Child class for "Warriors"
+class Warrior(Character):
+    
+    def heal(self):
+        self.hp += 10
+        print(f"{self.name} the warrior casts Heal! HP is now {self.hp}")

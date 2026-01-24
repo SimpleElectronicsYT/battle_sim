@@ -1,8 +1,8 @@
 #Importing from other modules
-from models import Character
+from models import Character, Warrior
 
 #Make two instances of the character class - name, hp, stength
-character_one = Character("Hero", 100, 10)
+character_one = Warrior("Hero", 100, 10)
 character_two = Character("Goblin", 30, 5)
 
 #Print the starting state of the two characters
@@ -12,8 +12,12 @@ print(character_two)
 #Only run the loop while both Characters are alive
 while character_one.is_alive() and character_two.is_alive():
             
-    #Get "Hero" to attack "Goblin"
-    character_one.attack(character_two)
+    #Get "Hero" to attack "Goblin" unless low hp, then cast Heal
+    if character_one.hp < 30:
+        character_one.heal()
+    else:
+        character_one.attack(character_two)
+        
     if not character_two.is_alive():
         print(f"{character_two.name} has died!")
         break
