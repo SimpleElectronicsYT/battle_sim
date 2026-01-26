@@ -13,7 +13,7 @@ print(character_two)
 while character_one.is_alive() and character_two.is_alive():
             
     #Get "Hero" to attack "Goblin" unless low hp, then cast Heal
-    if character_one.hp < 30:
+    if character_one.is_alive() and character_one.should_heal():
         character_one.heal()
     else:
         character_one.attack(character_two)
