@@ -5,6 +5,7 @@ class Character:
         self._hp = hp
         self._max_hp = hp
         self.strength = strength
+        self.weapon = None
     @property    
     def hp(self):
         return self._hp
@@ -20,10 +21,10 @@ class Character:
               
     def __str__(self):
         return f"{self.name} (HP: {self._hp})"
-    
+    #FIX THIS PART - CHECK TICKET
     def attack(self, target):
-        target.take_damage(self.strength)
-        
+        target.take_damage(self.strength + self.Weapon.damage)
+    #FIX THIS PART - CHECK TICKET    
     def is_alive(self):
         return self._hp > 0
     
@@ -33,6 +34,10 @@ class Character:
             f"{self.name} took {damage_amount} damage. "
             f"remaining HP: {self._hp}"
         )
+        
+    def equip(self, weapon):
+        self.weapon = weapon
+        print(f"{self.name} equipped {weapon.name}!")
     
 #Child class for "Warriors"
 class Warrior(Character):
@@ -54,4 +59,12 @@ class Mage(Character):
         
     def attack(self, target):
         target.take_damage(self.intelligence)
+        
+class Weapon:
+    def __init__(self, name, damage):
+        self.name = name
+        self.damage = damage
+        
+    def __str__(self):
+        print(f"<{self.name} ({self.damage} damage)")
         
