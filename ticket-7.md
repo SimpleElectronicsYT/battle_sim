@@ -1,54 +1,47 @@
-Ticket #7: Pythonic Encapsulation (Properties)
+Ticket #7 with this understanding
 
-Description: We have protected _hp from being set to a negative number via take_damage. However, Warrior.heal modifies self._hp directly (self._hp += 10).
+Now, let's implement the logic. We are intercepting the assignment to validate the data.
 
-    If the Warrior heals, they could technically exceed their starting HP (e.g., go from 100 to 110). We don't want that.
+Requirements for models.py (Character class):
 
-    If we write self.hp -= 5 anywhere else, it would crash or bypass our checks.
+    Storage (__init__):
 
-In Python, we don't usually write get_hp() and set_hp(). We use Decorators to make a method act like a variable. This allows us to add logic (like "don't go above Max HP") every time the variable changes.
+        We need a place to actually store the data that isn't the property name.
 
-Requirements:
+        Store self._hp = hp (The private storage).
 
-    Update Character class (models.py):
+        Store self._max_hp = hp (To compare against later).
 
-        Max HP: In __init__, store the starting HP in a new variable: self._max_hp.
+    The Interceptor (The Getter):
 
-        The Getter: Create a method named hp(self) and put the @property decorator above it. It should just return self._hp.
+        Create a method def hp(self):.
 
-        The Setter: Create a method named hp(self, value) and put the @hp.setter decorator above it.
+        Decorate it with @property.
 
-            Logic:
+        It should return self._hp.
 
-                Update self._hp to the new value.
+    The Validator (The Setter):
 
-                Clamp it: If self._hp > self._max_hp, set it back to _max_hp.
+        Create a method def hp(self, value):.
 
-                Clamp it: If self._hp < 0, set it to 0.
+        Decorate it with @hp.setter.
 
-    Refactor Methods (models.py):
+        The Logic:
 
-        take_damage: You can delete the "if < 0" logic inside this method. Now, you can simply write self.hp -= damage_amount. The setter will automatically catch the negative number and fix it!
+            Check if value > self._max_hp. If yes, assign self._max_hp to self._hp.
 
-        Warrior.heal: Change self._hp += 10 to self.hp += 10. The setter will automatically prevent it from going over 100!
+            Check if value < 0. If yes, assign 0 to self._hp.
 
-    Refactor main.py:
+            Else, assign value to self._hp.
 
-        Check your print statements or logic. You can now safe usage character.hp (without the underscore) because the @property exposes it nicely.
+    Usage (Refactor):
 
-Acceptance Criteria:
+        Update take_damage: Change logic to self.hp -= damage.
 
-    The Warrior cannot heal above their starting HP (e.g., if they are at 95/100 and heal for 10, they stop at 100).
+            Why? This triggers the Setter. The Setter handles the < 0 check.
 
-    The logic for "clamping" HP is centralized in one place (the setter), not scattered across heal and take_damage.
+        Update Warrior.heal: Change logic to self.hp += 10.
 
-Hint:
+            Why? This triggers the Setter. The Setter handles the > max_hp check.
 
-    The syntax looks like this:
-    Python
-
-    @property
-    def hp(self):
-        return self._hp
-
-    @hp.setter def hp(self, value): self._hp = value # add checks here
+Give this a try. You are writing the logic that sits between the assignment and the storage.
