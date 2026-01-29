@@ -21,10 +21,13 @@ class Character:
               
     def __str__(self):
         return f"{self.name} (HP: {self._hp})"
-    #FIX THIS PART - CHECK TICKET
+    
     def attack(self, target):
-        target.take_damage(self.strength + self.Weapon.damage)
-    #FIX THIS PART - CHECK TICKET    
+        total_damage = self.strength
+        if self.weapon:
+            total_damage += self.weapon.damage
+        target.take_damage(total_damage)  
+          
     def is_alive(self):
         return self._hp > 0
     
@@ -66,5 +69,6 @@ class Weapon:
         self.damage = damage
         
     def __str__(self):
-        print(f"<{self.name} ({self.damage} damage)")
+        return f"<{self.name} ({self.damage} damage)"
+        
         

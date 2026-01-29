@@ -1,9 +1,15 @@
 #Importing from other modules
-from models import Character, Warrior, Mage
+from models import Character, Warrior, Mage, Weapon
 
 #Make two instances of the character class - name, hp, stength, intelligence
 character_one = Warrior("Hero", 100, 10)
 character_two = Mage("Evil Wizard", 40, 15)
+
+#Make an instance of a weapon
+excalibur = Weapon("Excalibur", 20)
+
+#Make the Warrior equip it
+character_one.equip(excalibur)
 
 #Print the starting state of the two characters
 print(character_one)
